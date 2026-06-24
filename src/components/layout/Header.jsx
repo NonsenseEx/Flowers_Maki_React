@@ -23,8 +23,6 @@ export default function Header({ onAbrirFavoritos }) {
                         </div>
                     </li>
                     <li><a href="#pedido">Hacer Pedido</a></li>
-                    
-                    {/* 👇 AQUÍ ESTABA EL ERROR: Ya tiene su etiqueta "<a" de apertura correcta */}
                     <li>
                         <a 
                             href="#favoritos"
