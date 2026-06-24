@@ -1,45 +1,64 @@
 // src/components/cart/ModalCarrito.jsx
-import { useApp } from '../../context/AppContext';
+import { useState } from 'react';
+import { useCart } from '../../context/CartContext';
+import CheckoutModal from '../ui/CheckoutModal';
 
 export default function ModalCarrito({ onCerrar }) {
-    const { carrito, borrarItemCarrito, vaciarCarrito } = useApp();
-    const total = carrito.reduce((acc, item) => acc + item.subtotal, 0);
+    const { carrito, totalCarrito, agregarAlCarrito, restarDelCarrito, borrarItemCarrito, vaciarCarrito } = useCart();
+    const [mostrarCheckout, setMostrarCheckout] = useState(false);
 
-    function handlePagar() {
-        if (carrito.length === 0) { alert("Carrito vacío."); return; }
-        if (window.confirm("¿Confirmar pago?")) {
-            vaciarCarrito();
-            onCerrar();
-            alert("¡Gracias por tu compra en Flowers Maki! Estaremos en contacto.");
-        }
-    }
-
-    function handleVaciar() {
-        if (window.confirm("¿Vaciar carrito?")) vaciarCarrito();
+    if (mostrarCheckout) {
+        return <CheckoutModal onCerrar={() => { setMostrarCheckout(false); onCerrar(); }} />;
     }
 
     return (
         <div className="modal" style={{ display: 'block' }} onClick={e => e.target === e.currentTarget && onCerrar()}>
-            <div className="modal-contenido">
-                <span className="cerrar-modal" onClick={onCerrar}>&times;</span>
-                <h2>Tu Carrito</h2>
-                <div id="items-carrito">
-                    {carrito.length === 0 ? (
-                        <p style={{ textAlign: 'center', padding: '20px' }}>Tu carrito está vacío.</p>
-                    ) : (
-                        carrito.map((item, i) => (
-                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', borderBottom: '1px solid #eee' }}>
-                                <div><b>{item.nombre}</b> x{item.cantidad}</div>
-                                <button onClick={() => { if (window.confirm("¿Eliminar este ítem?")) borrarItemCarrito(i); }} style={{ color: 'red', border: 'none', background: 'none', cursor: 'pointer' }}>X</button>
+            <div className="modal-contenido carrito-modal">
+                <span className="cerrar-modal" onClick={onCerrar}>×</span>
+                <h2 className="carrito-titulo">🛒 Tu Carrito</h2>
+
+                {carrito.length === 0 ? (
+                    <div className="carrito-vacio">
+                        <p>🌸 Tu carrito está vacío.</p>
+                        <p style={{ fontSize: '0.85rem', color: '#888' }}>Agrega flores desde el catálogo.</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="carrito-items">
+                            {carrito.map(item => (
+                                <div key={item.id} className="carrito-item">
+                                    <img src={item.img} alt={item.nombre} className="carrito-item-img" />
+                                    <div className="carrito-item-info">
+                                        <strong>{item.nombre}</strong>
+                                        <span className="carrito-item-precio">${item.precio.toLocaleString()} c/u</span>
+                                    </div>
+                                    <div className="carrito-item-controles">
+                                        <button className="btn-cantidad" onClick={() => restarDelCarrito(item.id)}>−</button>
+                                        <span className="carrito-item-cantidad">{item.cantidad}</span>
+                                        <button className="btn-cantidad" onClick={() => agregarAlCarrito(item)}>+</button>
+                                    </div>
+                                    <div className="carrito-item-subtotal">
+                                        ${item.subtotal.toLocaleString()}
+                                    </div>
+                                    <button className="carrito-item-borrar" onClick={() => borrarItemCarrito(item.id)} title="Eliminar">×</button>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="carrito-footer">
+                            <div className="carrito-total">
+                                <span>Total</span>
+                                <span className="carrito-total-monto">${totalCarrito.toLocaleString()}</span>
                             </div>
-                        ))
-                    )}
-                </div>
-                <div className="modal-footer">
-                    <span>Total: ${total.toLocaleString()}</span>
-                </div>
-                <button className="btn-accion btn-peligro" onClick={handleVaciar}>Vaciar Carrito</button>
-                <button className="btn-accion btn-exito" onClick={handlePagar}>Pagar Ahora</button>
+                            <button className="btn-accion btn-peligro" onClick={() => { if (window.confirm('¿Vaciar carrito?')) vaciarCarrito(); }}>
+                                🗑 Vaciar carrito
+                            </button>
+                            <button className="btn-accion btn-exito" onClick={() => setMostrarCheckout(true)}>
+                                ✅ Confirmar compra
+                            </button>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
