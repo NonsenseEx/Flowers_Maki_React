@@ -1,0 +1,130 @@
+/* --- VARIABLES Y RESET --- */
+:root {
+    --primario: #1B3022;
+    --secundario: #4F6D7A;
+    --fondo-crema: #f7dec6;
+    --blanco: #FFFFFF;
+    --texto: #2C3E50;
+    --acento: #8E6E5E;
+    --cafe-oscuro: #5D4037;
+    --peligro: #c0392b;
+    --exito: #27ae60;
+    --purple: #8e44ad; /* Nuevo color para login */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body { 
+    font-family: 'Lato', sans-serif; color: var(--texto);
+    background-color: var(--fondo-crema);
+    background-image: linear-gradient(rgba(247, 222, 198, 0.72), rgba(247, 222, 198, 0.72)), url('img/fondoSeamless_1.webp'); 
+    background-repeat: repeat;
+    background-size: 400px;
+    overflow-x: hidden;
+}
+
+h1, h2, h3 { font-family: 'Playfair Display', serif; }
+a { text-decoration: none; }
+
+/* --- HEADER --- */
+.titulo-contenedor {
+    display: flex; justify-content: center; align-items: center;
+    gap: 15px; padding: 20px;
+    background: linear-gradient(rgba(247, 222, 198, 0.72), rgba(247, 222, 198, 0.72)), url('img/fondoSeamless_1.webp');
+    background-size: 400px;
+    border-bottom: 2px solid var(--primario); 
+}
+.marco-logo-circular { width: 60px; height: 60px; border-radius: 50%; overflow: hidden; border: 2px solid var(--primario); }
+.logo-header { width: 100%; height: 100%; object-fit: cover; }
+
+.navbar { background: var(--primario); position: sticky; top: 0; z-index: 2000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.navbar ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; padding: 0; }
+.navbar li { margin: 0; }
+.navbar a { display: block; padding: 15px 20px; color: white; font-weight: bold; text-transform: uppercase; font-size: 0.9rem; transition: 0.3s; }
+.navbar a:hover { background: var(--secundario); transform: scale(1.1); }
+
+.menu-nosotros { position: relative; }
+.desplegable-nosotros {
+    position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    width: 250px; background: white; padding: 15px; border: 2px solid var(--primario);
+    visibility: hidden; opacity: 0; transition: 0.3s; z-index: 2100; text-align: center; color: var(--texto);
+}
+.menu-nosotros:hover .desplegable-nosotros { visibility: visible; opacity: 1; }
+
+/* --- HERO --- */
+.hero-section { height: 60vh; background: url('img/flores_portada.webp') no-repeat center/cover; display: flex; align-items: center; justify-content: center; }
+.hero-overlay { background: rgba(0,0,0,0.5); width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; }
+.hero-texto-caja { background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); padding: 30px; border-radius: 10px; color: white; text-align: center; max-width: 90%; border: 1px solid rgba(255,255,255,0.4); }
+.hero-texto-caja h2 { font-size: 2rem; margin-bottom: 10px; text-shadow: 1px 1px 3px black; }
+
+/* --- SECCIONES --- */
+.seccion-principal { padding: 40px 20px; max-width: 1200px; margin: 0 auto; }
+.seccion-fondo-claro { background: rgba(255,255,255,0.6); border-radius: 15px; margin-bottom: 40px; }
+.titulo-seccion { background: var(--primario); color: white; padding: 10px 25px; border-radius: 30px; text-align: center; margin-bottom: 25px; display: block; margin-left: auto; margin-right: auto; }
+
+/* --- GRID --- */
+.grid-3-columnas { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+.item-flor { background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: center; transition: 0.3s; border: 1px solid #eee; }
+.item-flor:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+.marco-foto { height: 180px; overflow: hidden; border-radius: 5px; margin-bottom: 10px; }
+.marco-foto img { width: 100%; height: 100%; object-fit: cover; }
+.descripcion-flor { font-size: 0.85rem; color: #555; margin-top: 5px; line-height: 1.4; }
+
+/* --- FORMULARIOS --- */
+.contenedor-formulario { background: white; max-width: 500px; width: 100%; margin: 0 auto; padding: 30px; border: 2px solid var(--primario); box-shadow: 10px 10px 0px var(--acento); border-radius: 4px; }
+label { display: block; margin-top: 15px; font-weight: bold; color: var(--primario); }
+input, select, textarea { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+.rut-container { display: flex; gap: 5px; align-items: center; }
+.area-lista-previa { margin-top: 20px; border-top: 2px dashed #ccc; padding-top: 15px; }
+#lista-previa { list-style: none; margin-bottom: 10px; }
+#lista-previa li { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #eee; }
+.total-texto { font-weight: bold; font-size: 1.1rem; text-align: right; }
+
+/* --- BOTONES --- */
+.btn-accion { width: 100%; padding: 12px; border: none; cursor: pointer; font-weight: bold; text-transform: uppercase; border-radius: 4px; margin-top: 10px; transition: 0.3s; }
+.btn-principal { background: var(--primario); color: white; }
+.btn-principal:hover { background: var(--secundario); }
+.btn-exito { background: var(--exito); color: white; }
+.btn-peligro { background: var(--peligro); color: white; }
+
+/* --- BOTONES FLOTANTES --- */
+.boton-flotante {
+    position: fixed; width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 4000;
+    transition: transform 0.3s; cursor: pointer;
+}
+.boton-flotante:hover { transform: scale(1.1); }
+.icono-grande { font-size: 28px; color: white; }
+
+/* Carrito (Derecha Abajo) */
+.carrito-flotante { bottom: 30px; right: 30px; background: var(--cafe-oscuro); }
+
+/* Login (Izquierda Abajo) */
+.login-flotante { bottom: 30px; left: 30px; background: var(--purple); }
+
+/* Agregar (Verde, cerca de Login) */
+.agregar-flotante { bottom: 100px; left: 30px; background: var(--exito); display: none; /* Oculto por defecto */ }
+
+#contador-carrito { position: absolute; top: -5px; right: -5px; background: var(--acento); width: 25px; height: 25px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; }
+
+/* --- CONTACTO FINAL --- */
+.contacto-final { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 2px solid #ddd; }
+.marcos-redes { display: flex; justify-content: center; gap: 20px; margin-top: 20px; }
+.marco-red-circular { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--primario); overflow: hidden; display: flex; align-items: center; justify-content: center; background: white; transition: transform 0.3s; cursor: pointer; }
+.marco-red-circular:hover { transform: scale(1.1); border-color: var(--acento); }
+.img-red-social { width: 100%; height: 100%; object-fit: cover; }
+.icono-correo { font-size: 30px; }
+
+/* --- MODALES --- */
+.modal { display: none; position: fixed; z-index: 5000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); }
+.modal-contenido { background: white; margin: 5% auto; padding: 20px; width: 90%; max-width: 400px; border-radius: 8px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+.modal-grande { max-width: 600px; } /* Para el editor */
+.cerrar-modal { position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; }
+.modal-footer { text-align: right; font-size: 1.2rem; font-weight: bold; margin: 15px 0; border-top: 1px solid #eee; padding-top: 10px; }
+
+/* Editor Specifics */
+.editor-item { display: flex; justify-content: space-between; align-items: center; padding: 8px; border-bottom: 1px solid #eee; }
+.editor-item button { padding: 5px 10px; font-size: 0.8rem; margin-left: 5px; cursor: pointer; }
+.btn-editar { background: var(--secundario); color: white; border: none; }
+.btn-eliminar { background: var(--peligro); color: white; border: none; }
