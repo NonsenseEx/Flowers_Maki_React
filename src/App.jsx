@@ -12,6 +12,7 @@ import ModalCarrito from './components/cart/ModalCarrito';
 import ModalLogin from './components/ui/ModalLogin';
 import ModalEditor from './components/ui/ModalEditor';
 import ModalCorreo from './components/ui/ModalCorreo';
+import ModalFavoritos from './components/ui/ModalFavoritos';
 
 export default function App() {
     const { isAdmin, cerrarSesion } = useApp();
@@ -28,7 +29,7 @@ export default function App() {
 
     return (
         <>
-            <Header />
+            <Header onAbrirFavoritos={() => setModalAbierto('favoritos')} />
             <Hero />
             <Catalogo />
             <FormularioPedido />
@@ -66,10 +67,11 @@ export default function App() {
             </div>
 
             {/* MODALES */}
-            {modalAbierto === 'carrito' && <ModalCarrito onCerrar={() => setModalAbierto(null)} />}
-            {modalAbierto === 'login'   && <ModalLogin   onCerrar={() => setModalAbierto(null)} />}
-            {modalAbierto === 'editor'  && <ModalEditor  onCerrar={() => setModalAbierto(null)} />}
-            {modalAbierto === 'correo'  && <ModalCorreo  onCerrar={() => setModalAbierto(null)} />}
+            {modalAbierto === 'carrito'    && <ModalCarrito    onCerrar={() => setModalAbierto(null)} />}
+            {modalAbierto === 'login'      && <ModalLogin      onCerrar={() => setModalAbierto(null)} />}
+            {modalAbierto === 'editor'     && <ModalEditor     onCerrar={() => setModalAbierto(null)} />}
+            {modalAbierto === 'correo'     && <ModalCorreo     onCerrar={() => setModalAbierto(null)} />}
+            {modalAbierto === 'favoritos'  && <ModalFavoritos  onCerrar={() => setModalAbierto(null)} />}
         </>
     );
 }

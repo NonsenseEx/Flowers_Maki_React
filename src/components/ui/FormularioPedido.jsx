@@ -1,9 +1,11 @@
 // src/components/ui/FormularioPedido.jsx
 import { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { useCart } from '../../context/CartContext';
 
 export default function FormularioPedido() {
-    const { catalogo, agregarAlCarrito } = useApp();
+    const { catalogo } = useApp();
+    const { agregarListaAlCarrito } = useCart();
     const [florSeleccionada, setFlorSeleccionada] = useState('');
     const [cantidad, setCantidad] = useState(1);
     const [listaTemporal, setListaTemporal] = useState([]);
@@ -12,27 +14,30 @@ export default function FormularioPedido() {
 
     function handleAgregarLista() {
         if (!florSeleccionada) {
-            alert("Por favor, selecciona una flor del catálogo.");
+            alert('Por favor, selecciona una flor del catálogo.');
             return;
         }
         const flor = catalogo.find(f => f.id === parseInt(florSeleccionada));
+        if (!flor) return;
         const nuevoItem = {
             nombre: flor.nombre,
+            img: flor.img,
             cantidad: parseInt(cantidad),
             precio: flor.precio,
             subtotal: flor.precio * parseInt(cantidad),
         };
-        setListaTemporal([...listaTemporal, nuevoItem]);
+        setListaTemporal(prev => [...prev, nuevoItem]);
+        setCantidad(1);
     }
 
     function handleConfirmarCarrito() {
         if (listaTemporal.length === 0) {
-            alert("Aún no has agregado flores.");
+            alert('Aún no has agregado flores.');
             return;
         }
-        agregarAlCarrito(listaTemporal);
+        agregarListaAlCarrito(listaTemporal); // ← usa la función correcta
         setListaTemporal([]);
-        alert("¡Pedido agregado! Revisa el carrito (ícono inferior derecha).");
+        setFlorSeleccionada('');
     }
 
     return (
@@ -40,10 +45,7 @@ export default function FormularioPedido() {
             <h2 className="titulo-seccion">Realizar Pedido</h2>
             <div className="contenedor-formulario">
                 <label>Selecciona Flor:</label>
-                <select
-                    value={florSeleccionada}
-                    onChange={e => setFlorSeleccionada(e.target.value)}
-                >
+                <select value={florSeleccionada} onChange={e => setFlorSeleccionada(e.target.value)}>
                     <option value="">-- Selecciona --</option>
                     {catalogo.map(flor => (
                         <option key={flor.id} value={flor.id}>
@@ -53,12 +55,7 @@ export default function FormularioPedido() {
                 </select>
 
                 <label>Cantidad:</label>
-                <input
-                    type="number"
-                    value={cantidad}
-                    min="1"
-                    onChange={e => setCantidad(e.target.value)}
-                />
+                <input type="number" value={cantidad} min="1" onChange={e => setCantidad(e.target.value)} />
 
                 <button className="btn-accion btn-principal" onClick={handleAgregarLista}>
                     Agregar a la Lista
@@ -69,14 +66,12 @@ export default function FormularioPedido() {
                     <ul id="lista-previa">
                         {listaTemporal.map((item, i) => (
                             <li key={i}>
-                                <span>{item.nombre} x{item.cantidad}</span>
+                                <span>{item.nombre} ×{item.cantidad}</span>
                                 <span>${item.subtotal.toLocaleString()}</span>
                             </li>
                         ))}
                     </ul>
-                    <p className="total-texto">
-                        Total Selección: <span>${total.toLocaleString()}</span>
-                    </p>
+                    <p className="total-texto">Total Selección: <span>${total.toLocaleString()}</span></p>
                     <button className="btn-accion btn-exito" onClick={handleConfirmarCarrito}>
                         Confirmar y Enviar al Carrito
                     </button>

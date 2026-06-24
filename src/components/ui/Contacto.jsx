@@ -14,7 +14,7 @@ export default function Contacto({ onAbrirModalCorreo }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        alert("Mensaje recibido. Estaremos en contacto pronto.");
+        alert('Mensaje recibido. Estaremos en contacto pronto.');
         setForm({ nombre: '', telefono: '', correo: '', rutCuerpo: '', rutDigito: '', mensaje: '' });
     }
 
@@ -28,23 +28,49 @@ export default function Contacto({ onAbrirModalCorreo }) {
                 </p>
                 <form onSubmit={handleSubmit}>
                     <label>Nombre Completo:</label>
-                    <input type="text" name="nombre" value={form.nombre} onChange={handleChange} required />
+                    <input
+                        type="text" name="nombre" value={form.nombre} onChange={handleChange}
+                        placeholder="Ej: María González López"
+                        required
+                    />
 
                     <label>Teléfono:</label>
-                    <input type="tel" name="telefono" value={form.telefono} onChange={handleChange} required />
+                    <input
+                        type="tel" name="telefono" value={form.telefono} onChange={handleChange}
+                        placeholder="Ej: +56 9 1234 5678"
+                        required
+                    />
 
                     <label>Correo Electrónico:</label>
-                    <input type="email" name="correo" value={form.correo} onChange={handleChange} required />
+                    <input
+                        type="email" name="correo" value={form.correo} onChange={handleChange}
+                        placeholder="Ej: maria@correo.cl"
+                        required
+                    />
 
                     <label>RUT (Sin puntos):</label>
                     <div className="rut-container">
-                        <input type="text" name="rutCuerpo" placeholder="12345678" maxLength="8" value={form.rutCuerpo} onChange={handleChange} required />
+                        <input
+                            type="text" name="rutCuerpo" value={form.rutCuerpo} onChange={handleChange}
+                            placeholder="12345678"
+                            maxLength="8" required
+                        />
                         <span style={{ alignSelf: 'center', fontWeight: 'bold' }}>-</span>
-                        <input type="text" name="rutDigito" placeholder="K" maxLength="1" style={{ width: '50px', textTransform: 'uppercase' }} value={form.rutDigito} onChange={handleChange} required />
+                        <input
+                            type="text" name="rutDigito" value={form.rutDigito} onChange={handleChange}
+                            placeholder="K"
+                            maxLength="1"
+                            style={{ width: '50px', textTransform: 'uppercase' }}
+                            required
+                        />
                     </div>
 
                     <label>Mensaje:</label>
-                    <textarea name="mensaje" rows="4" value={form.mensaje} onChange={handleChange} required />
+                    <textarea
+                        name="mensaje" rows="4" value={form.mensaje} onChange={handleChange}
+                        placeholder="Deja tus comentarios aquí... Cuéntanos tu experiencia, sugerencias o consultas."
+                        required
+                    />
 
                     <button type="submit" className="btn-accion btn-principal">Enviar Mensaje</button>
                 </form>

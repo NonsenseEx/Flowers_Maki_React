@@ -8,24 +8,23 @@ export function FavoritosProvider({ children }) {
     const { agregarToast } = useToast();
 
     const [favoritos, setFavoritos] = useState(() => {
-        try {
-            return JSON.parse(localStorage.getItem('favoritosMaki')) || [];
-        } catch {
-            return [];
-        }
+        try { return JSON.parse(localStorage.getItem('favoritosMaki')) || []; }
+        catch { return []; }
     });
 
+    // El toast se dispara UNA SOLA VEZ aquí, no en el componente
     function toggleFavorito(flor) {
         setFavoritos(prev => {
             const existe = prev.some(f => f.id === flor.id);
-            const nuevo = existe
-                ? prev.filter(f => f.id !== flor.id)
-                : [...prev, flor];
+            const nuevo = existe ? prev.filter(f => f.id !== flor.id) : [...prev, flor];
             localStorage.setItem('favoritosMaki', JSON.stringify(nuevo));
-            agregarToast(existe
-                ? { mensaje: `${flor.nombre} eliminada de favoritos`, tipo: 'warning', icono: '🤍' }
-                : { mensaje: `${flor.nombre} guardada en favoritos`, tipo: 'success', icono: '❤️' }
-            );
+            // Timeout para no disparar durante el render
+            setTimeout(() => {
+                agregarToast(existe
+                    ? { mensaje: `${flor.nombre} eliminada de favoritos`, tipo: 'warning', icono: '🤍' }
+                    : { mensaje: `${flor.nombre} guardada en favoritos`, tipo: 'success', icono: '❤️' }
+                );
+            }, 0);
             return nuevo;
         });
     }

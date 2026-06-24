@@ -8,7 +8,11 @@ export function ToastProvider({ children }) {
 
     const agregarToast = useCallback(({ mensaje, tipo = 'success', icono = '' }) => {
         const id = Date.now() + Math.random();
-        setToasts(prev => [...prev, { id, mensaje, tipo, icono }]);
+        // Evitar duplicados: si ya existe un toast con el mismo mensaje activo, no agregar otro
+        setToasts(prev => {
+            if (prev.some(t => t.mensaje === mensaje)) return prev;
+            return [...prev, { id, mensaje, tipo, icono }];
+        });
         setTimeout(() => {
             setToasts(prev => prev.filter(t => t.id !== id));
         }, 3500);

@@ -13,12 +13,11 @@ export default function FlowerCard({ flor }) {
 
     return (
         <div className={`item-flor ${sinStock ? 'item-flor--agotado' : ''}`}>
-            {/* Badge de stock bajo */}
             {!sinStock && flor.stock <= 5 && (
                 <span className="badge-stock-bajo">¡Últimas {flor.stock}!</span>
             )}
 
-            {/* Botón favorito */}
+            {/* Botón favorito — el toast lo maneja el context, no llamar agregarToast aquí */}
             <button
                 className={`btn-favorito ${esFavorito(flor.id) ? 'btn-favorito--activo' : ''}`}
                 onClick={() => toggleFavorito(flor)}
@@ -43,12 +42,13 @@ export default function FlowerCard({ flor }) {
                 }
             </div>
 
+            {/* El toast lo maneja agregarAlCarrito internamente, no llamar agregarToast aquí */}
             <button
                 className={`btn-accion ${deshabilitado ? 'btn-agotado' : 'btn-principal'}`}
                 onClick={() => agregarAlCarrito(flor)}
                 disabled={deshabilitado}
             >
-                {sinStock ? '🚫 Agotado' : stockAgotadoPorCarrito ? '✓ Máximo en carrito' : '🛒 Añadir al carrito'}
+                {sinStock ? '🚫 Agotado' : stockAgotadoPorCarrito ? '✓ Máximo agregado' : '🛒 Añadir al carrito'}
             </button>
         </div>
     );
